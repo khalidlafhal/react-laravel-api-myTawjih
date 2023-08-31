@@ -1,12 +1,22 @@
 import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import SidebarAdmin from "../compenents/SidebarAdmin";
 import HeaderAdmin from "../compenents/HeaderAdmin";
+import { useStateContext } from "../contexts/ContextProvider";
 
 
 export default function DefaultLayoutDashboardAdmin() {
    const [sidebarOpen, setSidebarOpen] = useState(false);
+   const {token,user} = useStateContext();
 
+
+   if (!token) {
+      if (user.type !== 'admin') 
+          return <Navigate to='/login'/>
+   }
+
+
+   
    return (
      <div className="dark:bg-boxdark-2 dark:text-bodydark">
        {/* <!-- ===== Page Wrapper Start ===== --> */}
@@ -24,6 +34,7 @@ export default function DefaultLayoutDashboardAdmin() {
            {/* <!-- ===== Main Content Start ===== --> */}
            <main>
              <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+              {/* {localStorage.getItem('ACCESS_TOKEN')} */}
                <Outlet />
              </div>
            </main>

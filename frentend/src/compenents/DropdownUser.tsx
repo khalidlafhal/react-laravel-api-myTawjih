@@ -1,14 +1,17 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-
 import UserOne from '../assets/images/user/user-01.png';
+import { useStateContext } from '../contexts/ContextProvider';
+import { axiosClient } from '../AxiosClient';
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const trigger = useRef<any>(null);
   const dropdown = useRef<any>(null);
+
+  const {user,setToken,setUser} = useStateContext();
 
   // close on click outside
   useEffect(() => {
@@ -36,6 +39,25 @@ const DropdownUser = () => {
     return () => document.removeEventListener('keydown', keyHandler);
   });
 
+  // Get User Info
+  useEffect(()=>{
+    axiosClient.get('/user')
+    .then(({data})=>{
+      setUser(data);
+    })
+  },[])
+  // Handle Logout
+  const handleLogout = () => {
+    axiosClient.post('/logout')
+    .then(()=>{
+      setToken(null)
+      setUser({})
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+
   return (
     <div className="relative">
       <Link
@@ -46,7 +68,7 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            Thomas Anree
+            {user.name}
           </span>
           <span className="block text-xs">UX Designer</span>
         </span>
@@ -156,7 +178,10 @@ const DropdownUser = () => {
             </Link>
           </li>
         </ul>
-        <button className="flex items-center gap-3.5 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
+        <button 
+        className="flex items-center gap-3.5 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
+        onClick={()=>handleLogout()}
+        >
           <svg
             className="fill-current"
             width="22"

@@ -1,8 +1,48 @@
+import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Breadcrumb from "../../../../compenents/Breadcrumb";
+import  { axiosClient }  from '../../../../AxiosClient';
 
 
 export default function AddUser() {
+   const nomRef = useRef();
+   const prenomRef = useRef();
+   const nomAffichageRef = useRef();
+   const emailRef = useRef();
+   const phoneRef = useRef();
+   const [photo,setPhoto]  = useState(null);
 
+   const navigate = useNavigate();
+   // handle Add User 
+   const handleAddUser = ()=>{
+      const payload = new FormData();
+
+      payload.append('fname',nomRef.current.value)
+      payload.append('lname',prenomRef.current.value)
+      payload.append('email',emailRef.current.value)
+      payload.append('tele',phoneRef.current.value)
+      payload.append('id_admin',null)
+      payload.append('file',photo)
+
+
+      axiosClient.post('/admin/addUser',payload,{
+         headers:{
+            'Content-Type':'multipart/form-data'
+         }
+      }).then(({data}) => {
+         if (data.resultat === 'success') {
+            return navigate('/admin/users');
+         }
+      }).catch((err) => {
+         console.log(err)
+      });
+   }
+
+   // hanle upload photo
+   const handlePhotoChange = (event)=> {
+      const selectFile = event.target.files[0];
+      setPhoto(selectFile)
+   }
    return (
       <>
 
@@ -20,6 +60,7 @@ export default function AddUser() {
                   <input
                   type="text"
                   placeholder="Prénom"
+                  ref={prenomRef}
                   className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default
                    disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                 />
@@ -29,6 +70,7 @@ export default function AddUser() {
                   <input
                   type="text"
                   placeholder="Nom"
+                  ref={nomRef}
                   className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default
                    disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                 />
@@ -37,6 +79,7 @@ export default function AddUser() {
                   <label htmlFor="" className="mb-3 text-black block dark:text-white">Telephone</label>
                   <input
                   type="text"
+                  ref={phoneRef}
                   placeholder="Telephone"
                   className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default
                    disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -47,6 +90,7 @@ export default function AddUser() {
                   <input
                   type="text"
                   placeholder="Nom D'affichage"
+                  ref={nomAffichageRef}
                   className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default
                    disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                 />
@@ -56,6 +100,7 @@ export default function AddUser() {
                   <input
                   type="text"
                   placeholder="Email"
+                  ref={emailRef}
                   className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default
                    disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                 />
@@ -80,6 +125,7 @@ export default function AddUser() {
                       type="file"
                       accept="image/*"
                       className="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 outline-none"
+                      onChange={handlePhotoChange}
                     />
                     <div className="flex flex-col items-center justify-center space-y-3">
                       <span className="flex h-10 w-10 items-center justify-center rounded-full border border-stroke bg-white dark:border-strokedark dark:bg-boxdark">
@@ -122,7 +168,9 @@ export default function AddUser() {
          {/*End Upload Photo */}
 
          <div className="flex justify-end ">
-               <button className="bg-meta-3 text-white font-semibold py-2 rounded-md px-[50px]">
+               <button className="bg-meta-3 text-white font-semibold py-2 rounded-md px-[50px]"
+               onClick={handleAddUser}
+               >
                   Save
                </button>
          </div>

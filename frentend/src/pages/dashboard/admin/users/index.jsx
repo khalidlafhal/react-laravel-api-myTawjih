@@ -2,8 +2,42 @@ import Breadcrumb from "../../../../compenents/Breadcrumb";
 import UserOne from '../../../../assets/images/user/user-01.png';
 import { Link } from "react-router-dom";
 import {AiOutlineEdit, AiTwotoneDelete} from 'react-icons/ai';
+import { axiosClient } from "../../../../AxiosClient";
+import { useEffect, useState } from "react";
+import config from "../../../../config";
 
 export default function ListUser() {
+  const [admins , setAdmins] = useState([]);
+
+  useEffect(()=> {
+    fetchUsers()
+  },[])
+
+  const fetchUsers = () => {
+    axiosClient.get('/admin/listAdmins')
+      .then(({data}) => {
+          setAdmins(data.users)
+          console.log(admins)
+      })
+      .catch( err => {
+        console.log(err)
+      })
+  }
+
+  // DELETE USER
+  const hanldeDeleteUser = (id) => {
+    if (window.confirm('voulez vraiment supprimer ce etudiant')) {
+      axiosClient.delete(`/admin/deleteAdmin/${id}`)
+        .then((rep)=>{
+            console.log(rep)
+            fetchUsers()
+        }).catch(err => {
+          console.log(err)
+        })
+    }
+  }
+
+
 
    return (
       <>
@@ -41,32 +75,44 @@ export default function ListUser() {
           <p className="font-medium">Actions</p>
         </div>
       </div>
-
-      <div className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5">
-        <div className="col-span-3 flex items-center">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-            <div className="h-12.5 w-15 rounded-md">
-              <img src={UserOne} alt="Product" />
+      {admins.map((user => {
+        return (
+          <div key={user.id} className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5">
+          <div className="col-span-3 flex items-center">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+              <div className="h-12.5 w-15 rounded-md">
+                {/* <img src={UserOne} alt="Product" /> */}
+                <img 
+                  src={user.admin.photo ? config.urlPackend+'/uploads/'+user.admin.photo:UserOne} 
+                  alt="Product" />
+              </div>
+              <p className="text-sm text-black dark:text-white">
+                {user.admin.fname + " " + user.admin.lname}
+              </p>
             </div>
-            <p className="text-sm text-black dark:text-white">
-              Apple Watch Series 7
-            </p>
+          </div>
+          <div className="col-span-2 hidden items-center sm:flex">
+            <p className="text-sm text-black dark:text-white">{user.email}</p>
+          </div>
+          <div className="col-span-1 flex items-center">
+            <p className="text-sm text-black dark:text-white">{user.admin.tele}</p>
+          </div>
+          <div className="col-span-1 flex items-center">
+            
+            
+
+
+          <p>1</p>
+
+          </div>
+          <div className="col-span-1 flex items-center gap-3">
+              <Link to={`/admin/users/${user.admin.id}`}><AiOutlineEdit   className="cursor-pointer h-5 w-5 text-meta-3"/></Link>
+              <AiTwotoneDelete  onClick={()=>hanldeDeleteUser(user.admin.id)} className="cursor-pointer h-5 w-5 text-danger"/>
           </div>
         </div>
-        <div className="col-span-2 hidden items-center sm:flex">
-          <p className="text-sm text-black dark:text-white">Electronics</p>
-        </div>
-        <div className="col-span-1 flex items-center">
-          <p className="text-sm text-black dark:text-white">$269</p>
-        </div>
-        <div className="col-span-1 flex items-center">
-          <p className="text-sm text-black dark:text-white">22</p>
-        </div>
-        <div className="col-span-1 flex items-center gap-3">
-            <AiOutlineEdit  className="cursor-pointer h-5 w-5 text-meta-3"/>
-            <AiTwotoneDelete  className="cursor-pointer h-5 w-5 text-danger"/>
-        </div>
-      </div>
+        )
+      }))}
+
 
 
 

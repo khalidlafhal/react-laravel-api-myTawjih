@@ -28,7 +28,7 @@ const routesAdmin = [
    element:<Suspense fallback={<Loader/>}><AddUser/></Suspense>
   }
   ,{
-   path:'/admin/users/edit-user',
+   path:'/admin/users/:id',
    element:<Suspense fallback={<Loader/>}><EditUser/></Suspense>
   }
 ]

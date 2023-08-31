@@ -6,7 +6,7 @@ export default  function Backs() {
       <section className="bg-white px-3 py-12 lg:py-16">
          <div className="max-w-screen-xl mx-auto">
             <h2 className="text-center  text-[#44525d] font-[800] text-3xl lg:text-5xl leading-7">با قات الإشتراك في توجيه</h2>
-            <div className="grid justify-center grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-y-8 lg:gap-5 mt-7 lg:mt-7">
+            <div className="grid justify-center grid-cols-1 md:grid-cols-2 md:gap-x-5 lg:grid-cols-4  gap-y-8 lg:gap-5 mt-7 lg:mt-7">
 
                <div className="border-5 border-solid border-red-500  md:w-full lg:w-full mx-auto w-[80%] bg-meta-9 rounded-[30px]">
                      <div className="flex flex-col justify-center p-4 rounded-t-[30px] bg-meta-1 items-center gap-y-1 text-white">

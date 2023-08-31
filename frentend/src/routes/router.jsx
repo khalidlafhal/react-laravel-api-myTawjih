@@ -11,6 +11,7 @@ import HomeAdmin from '../pages/dashboard/admin/Home';
 
 const Home = lazy(() => import('../pages/Home'));
 const ListUser = lazy( () => import('../pages/dashboard/admin/users'));
+const EditUser = lazy( () => import('../pages/dashboard/admin/users/EditUser') )
 
 const routesAdmin = [
    {
@@ -19,6 +20,9 @@ const routesAdmin = [
    },{
       path:'/admin/users',
       element:<Suspense fallback={<Loader/>}><ListUser/></Suspense>
+   },{
+      path:'/admin/users/edit',
+      element:<Suspense fallback={<Loader/>}><EditUser /></Suspense>
    }
 ]
 
@@ -30,11 +34,11 @@ export const routes = createBrowserRouter([
       children:[
          {
             path:'/',
-            element:{
+            element:
                <Suspense fallback={<Loader/>}>
                   <Home/>
               </Suspense>
-            }
+            
          }
       ]
    },{

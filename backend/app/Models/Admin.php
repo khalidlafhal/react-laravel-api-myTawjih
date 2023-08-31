@@ -20,4 +20,8 @@ class Admin extends Model
         'id_who_created',
         'user_id'
     ];
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
 }
