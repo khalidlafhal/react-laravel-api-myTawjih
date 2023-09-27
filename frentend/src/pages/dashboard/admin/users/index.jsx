@@ -5,6 +5,8 @@ import {AiOutlineEdit, AiTwotoneDelete} from 'react-icons/ai';
 import { axiosClient } from "../../../../AxiosClient";
 import { useEffect, useState } from "react";
 import config from "../../../../config";
+import Swal from 'sweetalert2';
+// import { useStateContext } from "../../../../contexts
 
 export default function ListUser() {
   const [admins , setAdmins] = useState([]);
@@ -26,24 +28,43 @@ export default function ListUser() {
 
   // DELETE USER
   const hanldeDeleteUser = (id) => {
-    if (window.confirm('voulez vraiment supprimer ce etudiant')) {
-      axiosClient.delete(`/admin/deleteAdmin/${id}`)
+
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosClient.delete(`/admin/deleteAdmin/${id}`)
         .then((rep)=>{
-            console.log(rep)
-            fetchUsers()
+
+          Swal.fire(
+            'Deleted!',
+            // 'Your file has been deleted.',
+            'success'
+          )
+          fetchUsers()
+
+            // console.log(rep)
         }).catch(err => {
           console.log(err)
         })
-    }
+
+      }
+    })
   }
 
-
+  
 
    return (
       <>
          <Breadcrumb pageName="Utilisateurs" />
 
-   <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+      <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
       <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between items-center">
         <h4 className="text-xl font-semibold text-black dark:text-white">
     

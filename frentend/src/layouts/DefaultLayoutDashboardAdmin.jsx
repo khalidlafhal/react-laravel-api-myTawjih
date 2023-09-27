@@ -1,14 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import SidebarAdmin from "../compenents/SidebarAdmin";
 import HeaderAdmin from "../compenents/HeaderAdmin";
 import { useStateContext } from "../contexts/ContextProvider";
-
+import Swal from "sweetalert2";
 
 export default function DefaultLayoutDashboardAdmin() {
    const [sidebarOpen, setSidebarOpen] = useState(false);
    const {token,user} = useStateContext();
 
+  const {notification} = useStateContext();
+   
+  useEffect(()=>{
+      if (notification) {
+        if (notification.type === 'success')
+          Swal.fire(
+            'Good job!',
+            notification.message,
+            'success'
+          ) 
+      }
+  },[notification])
 
    if (!token) {
       if (user.type !== 'admin') 
@@ -34,8 +46,12 @@ export default function DefaultLayoutDashboardAdmin() {
            {/* <!-- ===== Main Content Start ===== --> */}
            <main>
              <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
-              {/* {localStorage.getItem('ACCESS_TOKEN')} */}
+
+              {/* {localStorage.removeItem('ACCESS_TOKEN')} */}
+
                <Outlet />
+
+
              </div>
            </main>
            {/* <!-- ===== Main Content End ===== --> */}

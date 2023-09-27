@@ -87,10 +87,10 @@ class AdminController extends Controller
             $data = $request->input();
 
             $admin = Admin::find($id);
-
+            $newName = null;
             if ($admin) {
                 
-                if ($request->hasFile('file')  &&  $request->file('file')->isValid()) {
+                if ($request->hasFile('file')) {
                     $filePath = public_path('uploads/'.$admin->photo);
                     if (File::exists($filePath)) {
                         File::delete($filePath);
@@ -100,14 +100,15 @@ class AdminController extends Controller
                     $fileName = time().'_'.$file->getClientOriginalName();
                     // Store the file in the 'public/uploads' directory
                     $file->move(public_path('uploads'),$fileName);
-                    $data['file'] = $fileName;
+                    $newName = $fileName;
                 }; 
+
                 $admin ->update([
                     'fname' => $data['fname'],
                     'lname' => $data['lname'],
                     'tele' => $data['tele'],
                     'email' => $data['email'],
-                    'photo' => $data['file']
+                    'photo' => (empty($newName) ? $admin->photo : $newName)
                 ]);
                 $user = $admin->user();
 
@@ -144,10 +145,11 @@ class AdminController extends Controller
             if (File::exists($filePath)) {
                 File::delete($filePath);
             };
-            $admin -> delete();
 
             $user = $admin->user;
             if ($user) {
+                $admin -> delete();
+
                 $user -> delete();
             }
 

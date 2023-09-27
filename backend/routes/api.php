@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\api\WebSiteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 /*
@@ -31,6 +32,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/deleteAdmin/{id}',[AdminController::class,'deleteAdmin']);
         Route::post('/user/update/{id}',[AdminController::class,'updateUser']);
 
+        Route::get('/website', [WebSiteController::class,'getInfo']);
+        Route::post('/website',[WebSiteController::class,'addInfo']);
+        Route::put('/website',[WebSiteController::class,'updateInfo']);
+        
     });
 
     Route::post('/logout', [AuthController::class, 'logout']);
@@ -43,18 +48,4 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 
-// Route::post('/users/create',function(){
-//     $user = User::create([
-//         'name'=>'khalid',
-//         'email' => 'lafhalkhalid@gmail.com',
-//         'type' => 'admin',
-//         'password' => Hash::make('khalid2002'),
-
-//     ]);
-//     return response()->json([
-//         'user' => $user,
-//         'message' => 'user add with success'
-//     ]);
-
-
-// })->name('create.user');
+Route::get('/website', [WebSiteController::class,'getInfo']);

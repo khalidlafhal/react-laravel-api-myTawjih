@@ -6,6 +6,7 @@ import { useEffect, useState , Suspense, lazy } from 'react';
 import DefaultLayoutHome from './layouts/DefaultLayoutHome';
 import GuestLayout from './layouts/GuestLayout';
 import DefaultLayoutDashboardAdmin from './layouts/DefaultLayoutDashboardAdmin';
+import ParametrageSiteWeb from './pages/dashboard/ParametrageSiteWeb';
 
 
 const Home = lazy(() => import('./pages/Home'));
@@ -15,7 +16,7 @@ const HomeAdmin = lazy(() => import('./pages/dashboard/admin/Home'));
 const ListUser = lazy( () => import('./pages/dashboard/admin/users/index'));
 const AddUser = lazy( () => import('./pages/dashboard/admin/users/AddUser'));
 const EditUser = lazy( () => import('./pages/dashboard/admin/users/EditUser'));
-
+const Profile = lazy( () => import('./pages/dashboard/admin/users/Profile'))
 const routesAdmin = [
   {
      path:'/admin/dashboard',
@@ -30,6 +31,12 @@ const routesAdmin = [
   ,{
    path:'/admin/users/:id',
    element:<Suspense fallback={<Loader/>}><EditUser/></Suspense>
+  },{
+   path:'/admin/parametrage-siteweb',
+   element:<Suspense fallback={<Loader/>} ><ParametrageSiteWeb /> </Suspense>
+  },{
+   path:'/admin/profile',
+   element:<Suspense  fallback={<Loader />} > <Profile /></Suspense>
   }
 ]
 

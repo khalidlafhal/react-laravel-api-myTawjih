@@ -4,8 +4,9 @@ import { FaFacebook ,FaWhatsapp , FaYoutube} from 'react-icons/fa';
 import {ImLocation} from 'react-icons/im';
 import { AiOutlineMail , AiOutlineMenuFold ,AiOutlineClose} from 'react-icons/ai';
 import {BsInstagram}  from 'react-icons/bs';
-import {Link, NavLink} from 'react-router-dom'; 
+import { Link, NavLink} from 'react-router-dom'; 
 import logoItem from '../../assets/images/logo-site.png';
+import config from '../../config';
 
 const navLinksList = [
    {
@@ -30,10 +31,12 @@ const navLinksList = [
    },
 
 ]
-export const Header = () => {
+export const Header = ({websiteInfo}) => {
+
    const [clickMenu, setClickMenu] = useState(false)
    const toggleMenu = () => setClickMenu(!clickMenu)
 
+   const {nomSite,email,tele,addresse,twitter,facebook,youtube,instagramme,logo,approposDuSite} = websiteInfo;
 
    return (
       <>
@@ -43,28 +46,34 @@ export const Header = () => {
                <ul className="text-white text-[18px] flex flex-col lg:gap-5 gap-1  lg:flex-row">
                   <li className='flex items-center gap-x-2'>
                      <span><ImLocation className='w-5 h-5'/></span>
-                     <span>Boulevard de Mohammedia. QI Azli 40150 Marrakech Morocco</span>
+                     {/* <span>Boulevard de Mohammedia. QI Azli 40150 Marrakech Morocco</span> */}
+                     <span>{addresse}</span>
                   </li>
                   <li className='flex gap-x-2 items-center'>
                      <span className='w-[18px] h-[18px]'>
                         <AiOutlineMail className='w-5 h-5'/>
                         </span>
-                     <span>mohamedouahki22@gmail.com</span> 
+                     {/* <span>mohamedouahki22@gmail.com</span>  */}
+                     <span>{email}</span> 
                      </li>
                </ul>
 
                <ul className="text-white  gap-5 text-[20px] items-center hidden lg:flex">
                   <li>
+                    <Link to={facebook} className='cursor-pointer'>
                      <FaWhatsapp   className='w-5 h-5'/>
+                    </Link> 
                   </li>
                   <li>
-                     <FaFacebook  className='w-5 h-5'/>
+                     <Link to={facebook}><FaFacebook  className='w-5 h-5'/></Link>
+                     
                   </li>
                   <li>
-                     <BsInstagram  className='w-5 h-5' />
+                     <Link to={instagramme}> <BsInstagram  className='w-5 h-5' /></Link>
+                     
                   </li>
                   <li>
-                     <FaYoutube  className='w-5 h-5' />
+                     <Link to={youtube}> <FaYoutube  className='w-5 h-5' /> </Link>
                   </li>
                </ul>
          </div>
@@ -75,9 +84,9 @@ export const Header = () => {
                
                <div className='flex items-center gap-3'>
                   <div className='h-[40px] w-[40px]'>
-                     <img className='w-full' src={logoItem} alt="" />
+                     <img className='w-full' src={config.urlPackend+'/uploads/logos/'+logo} alt="" />
                   </div>
-                  <h3 className='font-bold text-[#5bc1ac] text-xl '>موق توجيه</h3>
+                  <h3 className='font-bold text-[#5bc1ac] text-xl '>{nomSite}</h3>
                </div>  
 
                <div className='navigation hidden lg:block'>
@@ -91,10 +100,12 @@ export const Header = () => {
                         )}
 
                      <li>
-                        <button className='bg-[#5bc1ac] text-white font-bold text-xl
-                        rounded-full px-4 py-2 pb-3 flex items-center justify-between'>
-                              تسجبل الدخول 
-                        </button>
+                     <NavLink to='/login' className='w-full'>
+                           <button className='bg-[#5bc1ac] text-white font-semibold text-[16px]
+                           rounded-full px-4 py-2 pb-3 flex items-center justify-between'>
+                           تسجبل الدخول 
+                           </button>
+                        </NavLink>
                      </li>
                   </ul>
                </div> 
@@ -118,12 +129,13 @@ export const Header = () => {
                         )}
 
                      <li>
-                        <Link to='/login'>
+                        <NavLink to='/login' className='w-full'>
                            <button className='bg-[#5bc1ac] text-white font-semibold text-[16px]
                            rounded-full px-4 py-2 pb-3 flex items-center justify-between'>
-                                 تسجبل الدخول 
+                              تسجبل الدخول 
                            </button>
-                        </Link>
+                        </NavLink>
+                 
                      </li>
                   </ul>
                </div> 

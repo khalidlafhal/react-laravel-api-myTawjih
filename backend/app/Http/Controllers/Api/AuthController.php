@@ -18,8 +18,10 @@ class AuthController extends Controller
         if (!Auth::attempt($credential)) {
 
             return response()->json([
-                'error' => 'Email or Password  is Incorrect'
-            ]);
+                'errors' => [
+                    'error' => 'البر يد الالكتر وني او كلمة السر غير  صحيحية '
+                ] 
+            ],422);
 
         }
 

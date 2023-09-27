@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Breadcrumb from "../../../../compenents/Breadcrumb";
 import  { axiosClient }  from '../../../../AxiosClient';
+import { useStateContext } from "../../../../contexts/ContextProvider";
 
 
 export default function AddUser() {
@@ -11,6 +12,9 @@ export default function AddUser() {
    const emailRef = useRef();
    const phoneRef = useRef();
    const [photo,setPhoto]  = useState(null);
+   const [selectImage,setImage] = useState(null);
+
+   const {setNotification} = useStateContext();
 
    const navigate = useNavigate();
    // handle Add User 
@@ -31,6 +35,9 @@ export default function AddUser() {
          }
       }).then(({data}) => {
          if (data.resultat === 'success') {
+            setNotification({
+               type:'success',
+               message:'user add with success'});
             return navigate('/admin/users');
          }
       }).catch((err) => {
@@ -41,7 +48,22 @@ export default function AddUser() {
    // hanle upload photo
    const handlePhotoChange = (event)=> {
       const selectFile = event.target.files[0];
-      setPhoto(selectFile)
+      if (selectFile) {
+         setPhoto(selectFile)
+         const reader = new FileReader();
+
+         reader.onload = (e)=> {
+            setImage(e.target.result)
+         }
+         reader.readAsDataURL(selectFile);
+
+      } else {
+         setImage(null)
+      }
+   }
+   const annuleUpload = ()=>{
+      setPhoto(null)
+      setImage(null)
    }
    return (
       <>
@@ -113,8 +135,16 @@ export default function AddUser() {
 
          {/*Start Upload Photo */}
          <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-            <div className="border-b  border-stroke py-4 px-6.5 dark:border-strokedark">
+            <div className="flex justify-between items-center border-b  border-stroke py-4 px-6.5 dark:border-strokedark">
                <h3 className="font-medium text-black dark:text-white">Upload Photo</h3>
+               {
+                  selectImage && (
+                     <button
+                     onClick={annuleUpload}
+                   className="bg-meta-7 rounded-md px-6 text-white py-1">Annuler</button>
+                  )
+               }
+
             </div>
 
             <div
@@ -127,6 +157,16 @@ export default function AddUser() {
                       className="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 outline-none"
                       onChange={handlePhotoChange}
                     />
+
+
+                    {
+                     selectImage ?
+                     <div className="flex justify-center">
+                        <div className="h-[150px] w-[250px] rounded-[20px] overflow-hidden">
+                           <img  src={selectImage} alt="" className="w-full  h-full block"  />
+                        </div>
+                     </div>
+                     : 
                     <div className="flex flex-col items-center justify-center space-y-3">
                       <span className="flex h-10 w-10 items-center justify-center rounded-full border border-stroke bg-white dark:border-strokedark dark:bg-boxdark">
                         <svg
@@ -162,8 +202,10 @@ export default function AddUser() {
                       </p>
                       <p className="mt-1.5">SVG, PNG, JPG or GIF</p>
                       <p>(max, 800 X 800px)</p>
-                    </div>
+                    </div> 
+                    }
             </div>
+
          </div>
          {/*End Upload Photo */}
 

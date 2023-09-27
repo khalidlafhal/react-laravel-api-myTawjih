@@ -6,7 +6,9 @@ import logoItem from '../../assets/images/logo.png';
 import { FaFacebook ,FaWhatsapp , FaYoutube} from 'react-icons/fa';
 import {BsInstagram}  from 'react-icons/bs';
 
-export const Footer = () => {
+export const Footer = ({websiteInfo}) => {
+
+   const {nomSite,email,tele,addresse,twitter,facebook,youtube,instagramme,logo,approposDuSite} = websiteInfo;
 
    return (
       <>
@@ -24,15 +26,15 @@ export const Footer = () => {
                         <ul className="flex flex-col gap-y-2 text-white mt-5">
                            <li className='flex items-center gap-x-2'>
                               <span><BsFillTelephoneFill className='w-4 h-4'/></span>
-                              <span className='text-[18px]'>06168345678</span>
+                              <span className='text-[18px]'>{tele}</span>
                            </li>
                            <li className='flex items-center gap-x-2'>
                               <span><AiOutlineMail className='w-4 h-4'/></span>
-                              <span className='text-[18px]'>mohamedouahki22@gmail.com</span>
+                              <span className='text-[18px]'>{email}</span>
                            </li>
                            <li className='flex items-center gap-x-2'>
                               <span><ImLocation className='w-4 h-4'/></span>
-                              <span className='text-[18px]'>Boulevard de Mohammedia. QI Azli 40150 Marrakech Morocco</span>
+                              <span className='text-[18px]'>{addresse}</span>
                            </li>
                         </ul>
                      </div>
@@ -49,16 +51,16 @@ export const Footer = () => {
 
                         <ul className='flex items-center gap-4'> 
                            <li className='bg-[#44525d] text-[18px] p-2 rounded-full hover:bg-[#5bc1ac]'>
-                              <a href="#" className='text-white'><FaFacebook/></a>
+                              <a href={facebook} className='text-white'><FaFacebook/></a>
                            </li>
                            <li className='bg-[#44525d] text-[18px] p-2 rounded-full hover:bg-[#5bc1ac]'>
-                              <a href="#" className='text-white'><FaWhatsapp/></a>
+                              <a href={tele} className='text-white'><FaWhatsapp/></a>
                            </li>
                            <li className='bg-[#44525d] text-[18px] p-2 rounded-full hover:bg-[#5bc1ac]'>
-                              <a href="#" className='text-white'><BsInstagram/></a>
+                              <a href={instagramme} className='text-white'><BsInstagram/></a>
                            </li>
                            <li className='bg-[#44525d] text-[18px] p-2 rounded-full hover:bg-[#5bc1ac]'>
-                              <a href="#" className='text-white'><FaYoutube/></a>
+                              <a href={youtube} className='text-white'><FaYoutube/></a>
                            </li>
                         </ul>
                   </div>
