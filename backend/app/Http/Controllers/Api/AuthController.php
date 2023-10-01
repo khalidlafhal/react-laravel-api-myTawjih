@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -35,17 +37,13 @@ class AuthController extends Controller
 
     }
 
-    public function createUser(Request $request) {
-        //
+    public function user(Request $request) {
+        $user =User::where('id',$request->user()->id)->with('admin')->get();
+        // $admin = $user -> admin;
+        return response()->json($user);
     }
 
-    public function UpdateUser(Request $request, $id) {
-        //
-    }
 
-    public function destroyUser($id) {
-        //
-    }
 
     public function logout(Request $request) {
         $user = $request -> user();

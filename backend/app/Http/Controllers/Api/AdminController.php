@@ -90,18 +90,18 @@ class AdminController extends Controller
             $newName = null;
             if ($admin) {
                 
-                if ($request->hasFile('file')) {
+                if ($request->hasFile('photo')) {
                     $filePath = public_path('uploads/'.$admin->photo);
                     if (File::exists($filePath)) {
                         File::delete($filePath);
                     }
-                    $file = $request->file('file');
+                    $file = $request->file('photo');
 
                     $fileName = time().'_'.$file->getClientOriginalName();
                     // Store the file in the 'public/uploads' directory
                     $file->move(public_path('uploads'),$fileName);
                     $newName = $fileName;
-                }; 
+                };
 
                 $admin ->update([
                     'fname' => $data['fname'],
@@ -119,13 +119,14 @@ class AdminController extends Controller
 
 
             } else {
-                return response('user not found');
+                return response()->json('user not found',422);
             }
 
 
             DB::commit();
             return response() ->json([
-                'resultat' => 'success'
+                'resultat' => 'success',
+                'admin' => $admin
             ]
             );
 

@@ -5,12 +5,16 @@ import Breadcrumb from '../../compenents/Breadcrumb'
 import { axiosClient } from '../../AxiosClient';
 import config from '../../config';
 import Swal from 'sweetalert2';
+import { useStateContext } from '../../contexts/ContextProvider';
 
 function ParametrageSiteWeb() {
    const [infoExist, setInfoExist]   = useState(null);
 
-   const [selectLogo,setSelectLogo] = useState(null);
+  const {websiteInfo,setWebsiteInfo} = useStateContext();
    
+
+   const [selectLogo,setSelectLogo] = useState(null);
+   const [oldLogo,setOldLogo] = useState('');
    const [formData, setFormData] = useState({
       nomSite:'',
       email:'',
@@ -53,7 +57,8 @@ function ParametrageSiteWeb() {
 
    const annuleUpload = () => {
       setSelectLogo(null)
-      setFormData({...formData,logo:''})
+      setFormData({...formData,logo:null})
+      
    }
 
    // GET INTO WEBSITE
@@ -62,6 +67,7 @@ function ParametrageSiteWeb() {
       .then(({data}) => {
          // console.log(data)
             setFormData(data)
+            setOldLogo(data.logo)
             setInfoExist(formData)
             console.log(infoExist)
       })
@@ -71,7 +77,7 @@ function ParametrageSiteWeb() {
    },[])
    // add info website
    const handleAddInfoWebsite = ()=> {
-      console.log(formData)
+      // console.log(formData)
       axiosClient.post('/admin/website',formData,
          { headers:{
                'Content-Type':'multipart/form-data'
@@ -83,7 +89,8 @@ function ParametrageSiteWeb() {
             'les information de site web a ete modifie',
             'success'
           ) 
-         console.log(data)
+          setOldLogo(data.info.logo)
+         // console.log(data)
       })
          .catch(err => {
             console.log(err)
@@ -91,8 +98,25 @@ function ParametrageSiteWeb() {
    }
    //update info website
    const handleUpdateInfo = ()=>{
-      alert('update info')
+      axiosClient.post('/admin/website/update',formData,
+      { headers:{
+            'Content-Type':'multipart/form-data'
+         }
+      }
+      ).then(({data}) => {
+         Swal.fire(
+            'Good job!',
+            'les information de site web a ete modifie',
+            'success'
+         ) 
+         setWebsiteInfo(data)
+         // console.log(data)
+      })
+      .catch(err => {
+         console.log(err)
+      })
    }
+
   return (
     <>
       <Breadcrumb pageName="Site Web" />
@@ -304,10 +328,10 @@ function ParametrageSiteWeb() {
 
 
                     {
-                     selectLogo || formData.logo ?
+                     selectLogo || oldLogo ?
                      <div className="flex justify-center">
                         <div className="h-[150px] w-[250px] rounded-[20px] overflow-hidden">
-                           <img  src={selectLogo ? selectLogo : config.urlPackend+'/uploads/logos/'+formData.logo} alt="" className="w-full  h-full block"  />
+                           <img  src={selectLogo ? selectLogo : config.urlPackend+'/uploads/logos/'+oldLogo} alt="" className="w-full  h-full block"  />
                         </div>
                      </div>
                      : 
@@ -355,7 +379,14 @@ function ParametrageSiteWeb() {
 
          <div className="flex justify-end ">
 
-              {!infoExist ? 
+              {/* {infoExist ? 
+                  <button className="bg-meta-3 text-white font-semibold py-2 rounded-md px-[50px]"
+                  onClick={()=> handleUpdateInfo()}> Update </button>
+                  :
+                  <button className="bg-meta-3 text-white font-semibold py-2 rounded-md px-[50px]"
+                  onClick={()=> handleAddInfoWebsite()}> Save </button>
+            } */}
+              {oldLogo ? 
                   <button className="bg-meta-3 text-white font-semibold py-2 rounded-md px-[50px]"
                   onClick={()=> handleUpdateInfo()}> Update </button>
                   :

@@ -101,9 +101,9 @@ export default function ListUser() {
           <div key={user.id} className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5">
           <div className="col-span-3 flex items-center">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-              <div className="h-12.5 w-15 rounded-md">
+              <div className="overflow-hidden rounded-md">
                 {/* <img src={UserOne} alt="Product" /> */}
-                <img 
+                <img  className="h-12.5 w-15"
                   src={user.admin.photo ? config.urlPackend+'/uploads/'+user.admin.photo:UserOne} 
                   alt="Product" />
               </div>

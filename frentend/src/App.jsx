@@ -13,10 +13,19 @@ const Home = lazy(() => import('./pages/Home'));
 const Login = lazy(() => import('./pages/auth/Login'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const HomeAdmin = lazy(() => import('./pages/dashboard/admin/Home'));
+//==== theses pages for admin
 const ListUser = lazy( () => import('./pages/dashboard/admin/users/index'));
 const AddUser = lazy( () => import('./pages/dashboard/admin/users/AddUser'));
 const EditUser = lazy( () => import('./pages/dashboard/admin/users/EditUser'));
 const Profile = lazy( () => import('./pages/dashboard/admin/users/Profile'))
+const StudentsAdmin = lazy( () => import('./pages/dashboard/admin/student/Index'));
+const TestemonialAdmin = lazy( () => import('./pages/dashboard/admin/testimonials/Testemonials'));
+const RegionAdmin = lazy( () => import('./pages/dashboard/region/Regions'));
+const Villes = lazy( () => import('./pages/dashboard/ville/Villes'));
+const Bacs = lazy( () => import('./pages/dashboard/bac/Bacs'));
+const Packs = lazy( () => import('./pages/dashboard/pack/Packs'));
+
+
 const routesAdmin = [
   {
      path:'/admin/dashboard',
@@ -37,6 +46,24 @@ const routesAdmin = [
   },{
    path:'/admin/profile',
    element:<Suspense  fallback={<Loader />} > <Profile /></Suspense>
+  },{
+   path:'/admin/students',
+   element:<Suspense  fallback={<Loader/>}><StudentsAdmin /></Suspense>
+  },{
+   path:'/admin/testemonial',
+   element:<Suspense fallback={<Loader/>}> <TestemonialAdmin/> </Suspense>
+  },{
+   path:'/admin/regions',
+   element:<Suspense fallback={<Loader/>}> <RegionAdmin/></Suspense>
+  },{
+   path:'/admin/villes',
+   element:<Suspense fallback={<Loader/>}><Villes/></Suspense>
+  },{
+   path:'/admin/bacs',
+   element:<Suspense fallback={<Loader/>}><Bacs/></Suspense>
+  },{
+   path:'/admin/packs',
+   element:<Suspense fallback={<Loader/>}><Packs /> </Suspense>
   }
 ]
 

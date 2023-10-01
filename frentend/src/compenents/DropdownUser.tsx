@@ -1,9 +1,11 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import UserOne from '../assets/images/user/user-01.png';
+// import UserOne from '../assets/images/user/user-01.png';
 import { useStateContext } from '../contexts/ContextProvider';
 import { axiosClient } from '../AxiosClient';
+import {BiSolidUserCircle} from 'react-icons/bi';
+import config from '../config';
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -43,9 +45,11 @@ const DropdownUser = () => {
   useEffect(()=>{
     axiosClient.get('/user')
     .then(({data})=>{
-      setUser(data);
-    })
-  },[])
+      setUser(data[0]);
+      // console.log(user)
+    },[user])
+    // console.log('changed profile')
+  })
   // Handle Logout
   const handleLogout = () => {
     axiosClient.post('/logout')
@@ -70,11 +74,17 @@ const DropdownUser = () => {
           <span className="block text-sm font-medium text-black dark:text-white">
             {user.name}
           </span>
-          <span className="block text-xs">UX Designer</span>
+          {/* <span className="block text-xs">UX Designer</span> */}
         </span>
 
-        <span className="h-12 w-12 rounded-full">
-          <img src={UserOne} alt="User" />
+        <span className="h-[48px] w-[48px] block overflow-hidden rounded-full">
+
+          {user.admin  ?
+            user.admin.photo ?  <img src={`${config.urlPackend}/uploads/${user.admin?.photo}`} alt="User" className='w-full'/>  : <BiSolidUserCircle className='text-black h-12 w-12' /> 
+          : 
+          <BiSolidUserCircle className='text-black h-12 w-12' /> 
+          }
+
         </span>
 
         <svg

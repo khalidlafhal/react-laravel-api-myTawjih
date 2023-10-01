@@ -3,10 +3,17 @@ import imgProfile from '../../../../assets/images/user/user-01.png';
 import React, { useEffect, useState } from 'react'
 import Breadcrumb from '../../../../compenents/Breadcrumb'
 import { axiosClient } from '../../../../AxiosClient';
+import config from "../../../../config";
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+
+import { useStateContext } from '../../../../contexts/ContextProvider';
 
 function Profile() {
 
-   const [data , setData] = useState();
+   const [newPhoto, setNewPhoto] = useState('');
+
+   const {setUser} = useStateContext();
 
    const [formData, setFormData] = useState({
       fname:'',
@@ -16,6 +23,7 @@ function Profile() {
       email:''
    });
 
+   const [oldPhoto, setOldPhoto] = useState();
 
    const [selectImage,setImage] = useState(null);
 
@@ -46,12 +54,37 @@ function Profile() {
   useEffect(()=>{
    axiosClient.get('/user')
    .then(({data})=>{
-     setData(data);
-     console.log(data)
+      const admin =  data[0].admin;
+     setFormData(admin);
+     setOldPhoto(admin.photo)
+     console.log(formData)
    })
  },[])
+   // handle Add User 
+   const handleUpdateUser = ()=>{
 
+
+      axiosClient.post('/admin/user/update/'+formData.id,formData,{
+         headers:{
+            'Content-Type':'multipart/form-data'
+         }
+      }).then(({data}) => {
+         if (data.resultat === 'success') {
+            // return navigate('/admin/users');
+            Swal.fire(
+               'Good job!',
+               'les information de votre profile  a ete modifie',
+               'success'
+             ) 
+             setUser(data.admin)
+         }
+      }).catch((err) => {
+         console.log(err)
+      });
+
+   }
   return (
+
     <>
       <Breadcrumb pageName="Profile"/>
 
@@ -77,10 +110,12 @@ function Profile() {
 
 
                     {
-                     selectImage ?
+                     selectImage || oldPhoto ?
                      <div className="flex justify-center">
                         <div className="h-[150px] w-[250px] rounded-[20px] overflow-hidden">
-                           <img  src={selectImage} alt="" className="w-full  h-full block"  />
+                           <img  src={selectImage ? selectImage : config.urlPackend+'/uploads/'+oldPhoto
+                           
+                           } alt="" className="w-full  h-full block"  />
                         </div>
                      </div>
                      : 
@@ -204,6 +239,7 @@ function Profile() {
        {/* ========== START BUTTON UPDATE  */}
        <div className="flex justify-end mt-5 ">
           <button className="bg-meta-3 text-white font-semibold py-2 rounded-md px-[50px]"
+          onClick={handleUpdateUser}
          >
             Update
          </button>

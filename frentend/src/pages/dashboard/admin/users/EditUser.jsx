@@ -3,11 +3,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumb from "../../../../compenents/Breadcrumb";
 import  { axiosClient }  from '../../../../AxiosClient';
 import config from "../../../../config";
-
+import {useStateContext}  from '../../../../contexts/ContextProvider';
 
 export default function EditUser() {
    const {id} = useParams();
-
+   const {setUser} = useStateContext();
    const [photo,setPhoto]  = useState(null);
    const [newPhoto,setNewPhoto] = useState(null);
    const [nom,setNom] = useState();
@@ -29,7 +29,7 @@ export default function EditUser() {
       payload.append('email',email)
       payload.append('tele',phone)
       payload.append('id_admin',null)
-      payload.append('file',newPhoto)
+      payload.append('photo',newPhoto)
 
       axiosClient.post('/admin/user/update/'+id,payload,{
          headers:{
@@ -50,7 +50,7 @@ export default function EditUser() {
 
       if (selectFile) {
          setNewPhoto(selectFile)
-
+         setPhoto(selectFile)
          const reader = new FileReader();
          reader.onload = (e) => {
             setSelectImage(e.target.result)
@@ -167,7 +167,7 @@ export default function EditUser() {
                   {
                      !photo && (
                         <div className="flex flex-col items-center justify-center space-y-3">
-                        <span className="flex h-10 w-10 items-center justify-center rounded-full border border-stroke bg-white dark:border-strokedark dark:bg-boxdark">
+                        <span className="flex h-10 w-10  items-center justify-center rounded-full border border-stroke bg-white dark:border-strokedark dark:bg-boxdark">
                           <svg
                             width="16"
                             height="16"
@@ -205,10 +205,10 @@ export default function EditUser() {
                      )
                   }
 
-                    {photo && (
-                        <div className="flex justify-center">
+                    {photo  && (
+                        <div className="overflow-hidden  flex  items-center justify-center overflow-hidden">
                            <img 
-                            width='250px' height='100px' className="rounded-[20px] block"
+                            className="block w-[150px] h-[150px]   rounded-[20px] md:w-[250px] md:h-[250px] "
                            // src={`${config.urlPackend}/uploads/${photo}`} alt="" />
                            src={selectImage?selectImage:`${config.urlPackend}/uploads/${photo}`} alt="" />
                         </div>

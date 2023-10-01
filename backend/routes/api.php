@@ -19,9 +19,11 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login',[AuthController::class,'login'])->name('login');
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
+    // Route::get('/user', function (Request $request) {
+    //     return $request->user();
+    // });
+
+    Route::get('/user',[AuthController::class,'user']);
 
     Route::prefix('admin')->group(function () {
         // Use GET method for listing admins
@@ -34,7 +36,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::get('/website', [WebSiteController::class,'getInfo']);
         Route::post('/website',[WebSiteController::class,'addInfo']);
-        Route::put('/website',[WebSiteController::class,'updateInfo']);
+        Route::post('/website/update',[WebSiteController::class,'updateInfo']);
         
     });
 

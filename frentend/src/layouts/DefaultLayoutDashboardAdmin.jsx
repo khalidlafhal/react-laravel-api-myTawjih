@@ -4,13 +4,29 @@ import SidebarAdmin from "../compenents/SidebarAdmin";
 import HeaderAdmin from "../compenents/HeaderAdmin";
 import { useStateContext } from "../contexts/ContextProvider";
 import Swal from "sweetalert2";
+import { axiosClient } from "../AxiosClient";
 
 export default function DefaultLayoutDashboardAdmin() {
    const [sidebarOpen, setSidebarOpen] = useState(false);
    const {token,user} = useStateContext();
 
-  const {notification} = useStateContext();
-   
+  //  const [infoWebs]
+  const {notification,setWebsiteInfo,websiteInfo} = useStateContext();
+
+  const getInfo = () => {
+  // setLoading(true)
+  axiosClient.get('/website')
+       .then(({data}) => {
+        setWebsiteInfo(data)
+      //  setLoading(false)
+       // console.log(formData)
+       })
+}
+
+    useEffect(()=>{
+      getInfo()
+    },[websiteInfo])
+
   useEffect(()=>{
       if (notification) {
         if (notification.type === 'success')
@@ -26,6 +42,9 @@ export default function DefaultLayoutDashboardAdmin() {
       if (user.type !== 'admin') 
           return <Navigate to='/login'/>
    }
+
+   
+ 
 
 
    
