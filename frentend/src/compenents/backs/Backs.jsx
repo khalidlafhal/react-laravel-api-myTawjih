@@ -1,7 +1,6 @@
 import {Link} from 'react-router-dom';
 
 export default  function Backs() {
-
    return (
       <section className="bg-white px-3 py-12 lg:py-16">
          <div className="max-w-screen-xl mx-auto">

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('bacs', function (Blueprint $table) {
-            $table->bigInteger('idBac')->primary();
+            $table->bigInteger('idBac');
             $table -> string('sector');
             $table -> string('sectorFR');
             $table -> text('abbreviation') ;

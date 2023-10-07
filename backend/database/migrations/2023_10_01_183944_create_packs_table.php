@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('packs', function (Blueprint $table) {
-            $table->bigInteger('idPack')->primary();
+            $table->bigInteger('idPack')->autoIncrement();
             $table -> string('domaineP')->default(null);
             $table -> string('domaineAbreviationP')->default(null);
             $table ->  text('avantage1P') -> default(null);

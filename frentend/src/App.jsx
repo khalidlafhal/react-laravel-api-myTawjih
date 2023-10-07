@@ -21,10 +21,12 @@ const Profile = lazy( () => import('./pages/dashboard/admin/users/Profile'))
 const StudentsAdmin = lazy( () => import('./pages/dashboard/admin/student/Index'));
 const TestemonialAdmin = lazy( () => import('./pages/dashboard/admin/testimonials/Testemonials'));
 const RegionAdmin = lazy( () => import('./pages/dashboard/region/Regions'));
+
 const Villes = lazy( () => import('./pages/dashboard/ville/Villes'));
 const Bacs = lazy( () => import('./pages/dashboard/bac/Bacs'));
 const Packs = lazy( () => import('./pages/dashboard/pack/Packs'));
-
+const AjouterArticle = lazy(()=> import('./pages/dashboard/article/AjouterArticle'))
+const Articles = lazy(()=> import('./pages/dashboard/article/Articles'))
 
 const routesAdmin = [
   {
@@ -64,6 +66,12 @@ const routesAdmin = [
   },{
    path:'/admin/packs',
    element:<Suspense fallback={<Loader/>}><Packs /> </Suspense>
+  },{
+   path:'/admin/articles',
+   element:<Suspense fallback={<Loader/>}><Articles/> </Suspense>
+  },{
+   path:'/admin/ajouter-article',
+   element:<Suspense fallback={<Loader/>}><AjouterArticle/></Suspense>
   }
 ]
 

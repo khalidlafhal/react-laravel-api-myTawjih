@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Ville extends Model
 {
@@ -13,4 +14,8 @@ class Ville extends Model
         'name',
         'idRegion'
     ];
+
+    public function region(){
+        return $this->BelongsTo(Region::class,'idRegion','id');
+    }
 }

@@ -12,5 +12,9 @@ class Region extends Model
     protected $fillable = [
         'name'
     ];
+
+    public function villes(){
+        return $this->hasMany(Ville::class,'idRegion','id');
+    }
     
 }
