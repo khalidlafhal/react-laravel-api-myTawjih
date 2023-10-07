@@ -21,3 +21,28 @@ MyTawjih is a website designed to assist students who have obtained a baccalaure
 - **API:** Utilize APIs for data retrieval, communication between the frontend and backend, and integration with external services.
 
 - **Tailwind CSS:** Styling is accomplished using Tailwind CSS, a utility-first CSS framework that enables responsive and clean design.
+
+
+- ## Usage
+
+### Installation
+
+To run this project locally, follow these steps:
+
+1. Clone the repository to your local machine.
+2. Navigate to the project directory.
+3. Install project dependencies using npm or yarn: `npm install` or `yarn install`.
+4. Configure your environment variables as described in the `.env.example` file.
+
+### Getting Started
+
+1. Navigate to the `backend` folder by running `cd backend` and run this commande `php artisan serve`.
+2. Navigate to the `frentend` folder by running `cd frentend` and run this commande  `npm start` or `yarn start`.
+3. Visit `http://localhost:3000` in your web browser to access the application.
+
+#### Configuration
+1. Open the `search-config.js` file in the frontend directory.
+2. Look for the API configuration section.
+3. Update the API URL to point to your local development server. Change:
+   ```javascript
+   const apiUrl = 'http://localhost:8000'; // Replace with your API URL
