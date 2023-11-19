@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\api\BacController;
 use App\Http\Controllers\api\PackController;
 use App\Http\Controllers\api\RegionController;
+use App\Http\Controllers\api\StudentController;
 use App\Http\Controllers\api\VilleController;
 use App\Http\Controllers\api\WebSiteController;
 use Illuminate\Http\Request;
@@ -65,6 +66,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('pack/bacs',[PackController::class,'getAllBacs']);
     Route::get('/pack/bac-checked/{id}',[PackController::class,'getcheckedBacs']);
     
+    //--------------------STUDENT -------------------------
+    Route::get('/student',[StudentController::class,'index']);
+    Route::post('/student',[StudentController::class,'store']);
+    Route::put('/student/{id}',[StudentController::class,'update']);
+    Route::delete('/student/{id}',[StudentController::class,'destroy']);
+    //--------------------STUDENT -------------------------
     Route::post('/logout', [AuthController::class, 'logout']);
 });
 
