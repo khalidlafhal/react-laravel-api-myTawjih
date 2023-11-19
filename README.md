@@ -14,6 +14,7 @@ MyTawjih is a website designed to assist students who have obtained a baccalaure
 
 - ## Technologies Used
 
+
 - **Laravel:** The backend of the project is built using the Laravel PHP framework, providing robust API functionality and data management.
 
 - **React:** The frontend is developed with React, offering a dynamic and interactive user interface.
