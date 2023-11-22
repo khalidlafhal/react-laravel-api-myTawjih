@@ -25,7 +25,7 @@ export default function DefaultLayoutDashboardAdmin() {
 
     useEffect(()=>{
       getInfo()
-    },[websiteInfo])
+    },[websiteInfo,user])
 
   useEffect(()=>{
       if (notification) {

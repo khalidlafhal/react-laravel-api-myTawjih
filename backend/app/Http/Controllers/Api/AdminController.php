@@ -34,7 +34,7 @@ class AdminController extends Controller
                     // Store the file in the 'public/uploads' directory
                     $file->move(public_path('uploads'),$fileName);
                     $admin->photo = $fileName;
-                }; 
+                };
 
             $user -> name = $data['fname'].' '.$data['lname'];
             $user -> email = $data['email'];
